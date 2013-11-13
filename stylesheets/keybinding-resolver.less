@@ -1,0 +1,29 @@
+@import "ui-variables";
+@import "octicon-mixins";
+
+.keybinding-resolver {
+  -webkit-flex: 0.25;
+  overflow: scroll;
+
+  .keystroke {
+    margin-right: 1em;
+  }
+
+  table {
+    .matched .command {
+      .octicon(check);
+    }
+
+    .unmatched .command {
+      .octicon(x);
+    }
+
+    .command, .selector, .source {
+      min-width: 10em;
+    }
+
+    .source {
+      cursor: pointer;
+    }
+  }
+}
