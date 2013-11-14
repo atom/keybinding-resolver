@@ -22,6 +22,7 @@ class KeybindingResolverView extends View
   destroy: ->
     @detach()
 
+
   toggle: ->
     if @hasParent()
       @detach()
@@ -34,7 +35,7 @@ class KeybindingResolverView extends View
   handleEvent: (event) ->
     keystroke = atom.keymap.keystrokeStringForEvent(event)
     mappings = atom.keymap.mappingsForKeystroke(keystroke)
-    matchedMappings = atom.keymap.mappingsMatchingElement(mappings, document.activeElement)
+    matchedMappings = atom.keymap.mappingsMatchingElement(document.activeElement, mappings)
     unmatchedMappings = mappings.filter (mapping) ->
       for matchedMapping in matchedMappings
         return false if _.isEqual(matchedMapping, mapping)
