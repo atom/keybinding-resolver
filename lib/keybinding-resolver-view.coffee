@@ -11,7 +11,7 @@ class KeybindingResolverView extends View
   initialize: ({attached})->
     @attach() if attached
 
-    atom.rootView.command "keybinding-resolver:toggle", => @toggle()
+    rootView.command "keybinding-resolver:toggle", => @toggle()
     $(document).preempt 'keydown', (event) => @handleEvent(event)
     @on "click", ".source", (event) ->
       rootView.open(event.target.innerText)
@@ -30,18 +30,18 @@ class KeybindingResolverView extends View
       @attach()
 
   attach: ->
-    atom.rootView.vertical.append(this)
+    rootView.vertical.append(this)
 
   handleEvent: (event) ->
     keystroke = atom.keymap.keystrokeStringForEvent(event)
-    bindings = atom.keymap.bindingsForKeystroke(keystroke)
-    matchedBindings = atom.keymap.bindingsMatchingElement(document.activeElement, bindings)
-    unmatchedBindings = bindings.filter (binding) ->
-      for matchedBinding in matchedBindings
+    keyBindings = atom.keymap.keyBindingsForKeystroke(keystroke)
+    matchedKeyBindings = atom.keymap.keyBindingsMatchingElement(document.activeElement, keyBindings)
+    unmatchedKeyBindings = keyBindings.filter (binding) ->
+      for matchedBinding in matchedKeyBindings
         return false if _.isEqual(matchedBinding, binding)
       true
 
-    bindingsLength = Object.keys(bindings).length
+    keyBindingsLength = Object.keys(keyBindings).length
     @keystroke.html $$ ->
       @span class: 'keystroke', keystroke
 
@@ -53,11 +53,11 @@ class KeybindingResolverView extends View
 
     @commands.html $$ ->
       @table class: 'table-condensed', =>
-        for binding, index in matchedBindings
+        for binding, index in matchedKeyBindings
           classString = 'matched'
           classString += ' selected text-success' if index == 0
           createListItem.call this, classString, binding
 
-        for binding in unmatchedBindings
+        for binding in unmatchedKeyBindings
           classString = 'unmatched text-subtle'
           createListItem.call this, classString, binding
