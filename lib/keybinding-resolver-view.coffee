@@ -34,30 +34,30 @@ class KeybindingResolverView extends View
 
   handleEvent: (event) ->
     keystroke = atom.keymap.keystrokeStringForEvent(event)
-    mappings = atom.keymap.mappingsForKeystroke(keystroke)
-    matchedMappings = atom.keymap.mappingsMatchingElement(document.activeElement, mappings)
-    unmatchedMappings = mappings.filter (mapping) ->
-      for matchedMapping in matchedMappings
-        return false if _.isEqual(matchedMapping, mapping)
+    bindings = atom.keymap.bindingsForKeystroke(keystroke)
+    matchedBindings = atom.keymap.bindingsMatchingElement(document.activeElement, bindings)
+    unmatchedBindings = bindings.filter (binding) ->
+      for matchedBinding in matchedBindings
+        return false if _.isEqual(matchedBinding, binding)
       true
 
-    mappingsLength = Object.keys(mappings).length
+    bindingsLength = Object.keys(bindings).length
     @keystroke.html $$ ->
       @span class: 'keystroke', keystroke
 
-    createListItem = (classString, mapping) ->
+    createListItem = (classString, binding) ->
       @tr class: classString, =>
-        @td class: 'command', mapping.command
-        @td class: 'selector', mapping.selector
-        @td class: 'source', mapping.source
+        @td class: 'command', binding.command
+        @td class: 'selector', binding.selector
+        @td class: 'source', binding.source
 
     @commands.html $$ ->
       @table class: 'table-condensed', =>
-        for mapping, index in matchedMappings
+        for binding, index in matchedBindings
           classString = 'matched'
           classString += ' selected text-success' if index == 0
-          createListItem.call this, classString, mapping
+          createListItem.call this, classString, binding
 
-        for mapping in unmatchedMappings
+        for binding in unmatchedBindings
           classString = 'unmatched text-subtle'
-          createListItem.call this, classString, mapping
+          createListItem.call this, classString, binding
