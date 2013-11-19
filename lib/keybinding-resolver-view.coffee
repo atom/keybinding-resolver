@@ -11,17 +11,16 @@ class KeybindingResolverView extends View
   initialize: ({attached})->
     @attach() if attached
 
-    rootView.command "keybinding-resolver:toggle", => @toggle()
+    atom.rootView.command "keybinding-resolver:toggle", => @toggle()
     $(document).preempt 'keydown', (event) => @handleEvent(event)
     @on "click", ".source", (event) ->
-      rootView.open(event.target.innerText)
+      atom.rootView.open(event.target.innerText)
 
   serialize: ->
     attached: @hasParent()
 
   destroy: ->
     @detach()
-
 
   toggle: ->
     if @hasParent()
@@ -30,7 +29,7 @@ class KeybindingResolverView extends View
       @attach()
 
   attach: ->
-    rootView.vertical.append(this)
+    atom.rootView.vertical.append(this)
 
   handleEvent: (event) ->
     keystroke = atom.keymap.keystrokeStringForEvent(event)
