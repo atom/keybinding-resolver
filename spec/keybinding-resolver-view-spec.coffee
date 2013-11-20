@@ -2,11 +2,9 @@ KeybindingResolverView = require '../lib/keybinding-resolver-view'
 {$, RootView} = require 'atom'
 
 describe "KeybindingResolverView", ->
-  keybindingResolver = null
-
   beforeEach ->
     atom.rootView = new RootView
-    keybindingResolver = atom.packages.activatePackage('keybinding-resolver', immediate: true)
+    atom.packages.activatePackage('keybinding-resolver', immediate: true)
 
   describe "when the keybinding-resolver:toggle event is triggered", ->
     it "attaches and then detaches the view", ->
