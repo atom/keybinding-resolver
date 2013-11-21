@@ -1,2 +1,5 @@
-'body':
-  'meta-.': 'keybinding-resolver:toggle'
+'.platform-darwin':
+  'cmd-.': 'keybinding-resolver:toggle'
+
+'.platform-win32':
+  'ctrl-.': 'keybinding-resolver:toggle'
