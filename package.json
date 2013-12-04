@@ -4,13 +4,7 @@
   "version": "0.6.0",
   "private": true,
   "description": "A short description of your package",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/atom/keybinding-resolver.git"
-  },
-  "bugs": {
-    "url": "https://github.com/atom/keybinding-resolver/issues"
-  },
+  "repository": "https://github.com/atom/keybinding-resolver",
   "engines": {
     "atom": ">27.0"
   },
