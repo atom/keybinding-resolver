@@ -29,7 +29,7 @@ class KeybindingResolverView extends View
       @attach()
 
   attach: ->
-    atom.workspaceView.vertical.append(this)
+    atom.workspaceView.prependToBottom(this)
 
   handleEvent: (event) ->
     keystroke = atom.keymap.keystrokeStringForEvent(event)
