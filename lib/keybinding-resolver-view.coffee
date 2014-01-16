@@ -12,6 +12,7 @@ class KeybindingResolverView extends View
     @attach() if attached
 
     atom.workspaceView.command 'keybinding-resolver:toggle', => @toggle()
+    atom.workspaceView.command 'core:cancel core:close', => @detach()
     $(document).preempt 'keydown', (event) => @handleEvent(event)
     @on 'click', '.source', (event) -> atom.workspaceView.open(event.target.innerText)
 
