@@ -4,7 +4,9 @@ KeybindingResolverView = require '../lib/keybinding-resolver-view'
 describe "KeybindingResolverView", ->
   beforeEach ->
     atom.workspaceView = new WorkspaceView
-    atom.packages.activatePackage('keybinding-resolver', immediate: true)
+
+    waitsForPromise ->
+      atom.packages.activatePackage('keybinding-resolver')
 
   describe "when the keybinding-resolver:toggle event is triggered", ->
     it "attaches and then detaches the view", ->
