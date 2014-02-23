@@ -1,4 +1,5 @@
-{_, $, $$, View} = require 'atom'
+_ = require 'underscore-plus'
+{$, $$, View} = require 'atom'
 Humanize = require 'humanize-plus'
 
 module.exports =
