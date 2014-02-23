@@ -3,7 +3,7 @@
   "main": "./lib/keybinding-resolver",
   "version": "0.10.0",
   "private": true,
-  "description": "A short description of your package",
+  "description": "Show what commands a keybinding resolves to",
   "license": "MIT",
   "repository": "https://github.com/atom/keybinding-resolver",
   "engines": {
