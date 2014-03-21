@@ -1,7 +1,7 @@
 {
   "name": "keybinding-resolver",
   "main": "./lib/keybinding-resolver",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "private": true,
   "description": "Show what commands a keybinding resolves to",
   "license": "MIT",
