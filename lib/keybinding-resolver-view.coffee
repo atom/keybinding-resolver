@@ -16,7 +16,7 @@ class KeybindingResolverView extends View
 
     atom.workspaceView.command 'keybinding-resolver:toggle', => @toggle()
     atom.workspaceView.command 'core:cancel core:close', => @detach()
-    $(document).preempt 'keydown', (event) => @handleEvent(event)
+
     @on 'click', '.source', (event) -> atom.workspaceView.open(event.target.innerText)
 
   serialize: ->
@@ -33,8 +33,13 @@ class KeybindingResolverView extends View
 
   attach: ->
     atom.workspaceView.prependToBottom(this)
+    $(document).preempt 'keydown', @handleEvent
 
-  handleEvent: (event) ->
+  detach: ->
+    super
+    $(document).off 'keydown', @handleEvent
+
+  handleEvent: (event) =>
     keystroke = atom.keymap.keystrokeStringForEvent(event)
     keyBindings = atom.keymap.keyBindingsForKeystroke(keystroke)
     matchedKeyBindings = atom.keymap.keyBindingsMatchingElement(document.activeElement, keyBindings)
