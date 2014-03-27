@@ -54,13 +54,13 @@ class KeyBindingResolverView extends View
 
     @commands.html $$ ->
       @table class: 'table-condensed', =>
-        @tr class: 'used selected text-success', =>
+        @tr class: 'used', =>
           @td class: 'command', usedKeyBinding.command
           @td class: 'selector', usedKeyBinding.selector
           @td class: 'source', usedKeyBinding.source
 
         for keyBinding in unusedKeyBindings
-          @tr class: 'unused text-subtle', =>
+          @tr class: 'unused', =>
             @td class: 'command', keyBinding.command
             @td class: 'selector', keyBinding.selector
             @td class: 'source', keyBinding.source
@@ -70,7 +70,7 @@ class KeyBindingResolverView extends View
           keyBinding != usedKeyBinding and keyBinding not in unusedKeyBindings
 
         for keyBinding in matchedKeyBindings
-          @tr class: 'unmatched text-subtle', =>
+          @tr class: 'unmatched', =>
             @td class: 'command', keyBinding.command
             @td class: 'selector', keyBinding.selector
             @td class: 'source', keyBinding.source
@@ -82,7 +82,7 @@ class KeyBindingResolverView extends View
     @commands.html $$ ->
       @table class: 'table-condensed', =>
         for keyBinding in keyBindings
-          @tr class: 'unmatched text-subtle', =>
+          @tr class: 'unused', =>
             @td class: 'command', keyBinding.command
             @td class: 'keystrokes', keyBinding.keystrokes
             @td class: 'selector', keyBinding.selector
