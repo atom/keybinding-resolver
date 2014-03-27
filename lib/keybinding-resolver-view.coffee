@@ -33,7 +33,6 @@ class KeyBindingResolverView extends View
 
   attach: ->
     atom.workspaceView.prependToBottom(this)
-      console.log "ok"
     @subscribe atom.keymap, "key-binding-matched", (usedKeyBinding, unusedKeyBindings) =>
       @update(usedKeyBinding, unusedKeyBindings)
 
