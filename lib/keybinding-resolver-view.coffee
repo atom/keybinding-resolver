@@ -33,14 +33,14 @@ class KeyBindingResolverView extends View
 
   attach: ->
     atom.workspaceView.prependToBottom(this)
-    @subscribe atom.keymap, "key-binding-triggered", (usedKeyBinding, unusedKeyBindings) =>
       console.log "ok"
+    @subscribe atom.keymap, "key-binding-matched", (usedKeyBinding, unusedKeyBindings) =>
       @update(usedKeyBinding, unusedKeyBindings)
 
-    @subscribe atom.keymap, "parital-key-bindings-triggered", (keystrokes, keyBindings) =>
+    @subscribe atom.keymap, "parital-key-bindings-matched", (keystrokes, keyBindings) =>
       @updatePartial(keystrokes, keyBindings)
 
-    @subscribe atom.keymap, "no-key-binding-triggered", (keystrokes) =>
+    @subscribe atom.keymap, "no-key-binding-matched", (keystrokes) =>
       @keystroke.html $$ -> @span class: 'keystroke', "#{keystrokes}"
       @commands.empty()
 
