@@ -18,11 +18,12 @@ describe "KeyBindingResolverView", ->
 
   describe "when a keydown event occurs", ->
     it "displays all commands for the event", ->
-      atom.keymap.bindKeys 'name', 'body', 'x': 'match-1'
-      atom.keymap.bindKeys 'name', 'body', 'x': 'match-2'
+      atom.keymap.bindKeys 'name', '.workspace', 'x': 'match-1'
+      atom.keymap.bindKeys 'name', '.workspace', 'x': 'match-2'
       atom.keymap.bindKeys 'name', '.never-again', 'x': 'unmatch-2'
 
       atom.workspaceView.trigger 'key-binding-resolver:toggle'
       $(document).trigger keydownEvent('x', target: atom.workspaceView)
-      expect(atom.workspaceView.find('.keybinding-resolver .matched')).toHaveLength 2
-      expect(atom.workspaceView.find('.keybinding-resolver .unmatched')).toHaveLength 1
+      expect(atom.workspaceView.find('.key-binding-resolver .used')).toHaveLength 1
+      expect(atom.workspaceView.find('.key-binding-resolver .unused')).toHaveLength 1
+      expect(atom.workspaceView.find('.key-binding-resolver .unmatched')).toHaveLength 1
