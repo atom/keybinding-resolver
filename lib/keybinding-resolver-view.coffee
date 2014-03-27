@@ -33,38 +33,25 @@ class KeybindingResolverView extends View
 
   attach: ->
     atom.workspaceView.prependToBottom(this)
-    $(document).preempt 'keydown', @handleEvent
+    @subscribe atom.keymap, "keybinding-triggered", (keybinding, alternativeKeybindings) =>
+      @update(keybinding, alternativeKeybindings)
 
   detach: ->
     super
-    $(document).off 'keydown', @handleEvent
 
-  handleEvent: (event) =>
-    keystroke = atom.keymap.keystrokeStringForEvent(event)
-    keyBindings = atom.keymap.keyBindingsForKeystroke(keystroke)
-    matchedKeyBindings = atom.keymap.keyBindingsMatchingElement(document.activeElement, keyBindings)
-    unmatchedKeyBindings = keyBindings.filter (binding) ->
-      for matchedBinding in matchedKeyBindings
-        return false if _.isEqual(matchedBinding, binding)
-      true
-
-    keyBindingsLength = Object.keys(keyBindings).length
+  update: (usedKeybinding, alternativeKeybindings) ->
     @keystroke.html $$ ->
-      @span class: 'keystroke', keystroke
-
-    createListItem = (classString, binding) ->
-      @tr class: classString, =>
-        @td class: 'command', binding.command
-        @td class: 'selector', binding.selector
-        @td class: 'source', binding.source
+      @span class: 'keystroke', usedKeybinding.keystrokes
 
     @commands.html $$ ->
       @table class: 'table-condensed', =>
-        for binding, index in matchedKeyBindings
-          classString = 'matched'
-          classString += ' selected text-success' if index == 0
-          createListItem.call this, classString, binding
+        @tr class: 'matched selected text-success', =>
+          @td class: 'command', usedKeybinding.command
+          @td class: 'selector', usedKeybinding.selector
+          @td class: 'source', usedKeybinding.source
 
-        for binding in unmatchedKeyBindings
-          classString = 'unmatched text-subtle'
-          createListItem.call this, classString, binding
+        for keybinding in alternativeKeybindings
+          @tr class: 'unmatched text-subtle', =>
+            @td class: 'command', keybinding.command
+            @td class: 'selector', keybinding.selector
+            @td class: 'source', keybinding.source
