@@ -1,5 +1,5 @@
 '.platform-darwin':
-  'cmd-.': 'keybinding-resolver:toggle'
+  'cmd-.': 'key-binding-resolver:toggle'
 
 '.platform-win32':
-  'ctrl-.': 'keybinding-resolver:toggle'
+  'ctrl-.': 'key-binding-resolver:toggle'

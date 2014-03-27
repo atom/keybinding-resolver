@@ -1,10 +1,10 @@
-KeybindingResolverView = require './keybinding-resolver-view'
+KeyBindingResolverView = require './keybinding-resolver-view'
 
 module.exports =
   keybindingResolverView: null
 
   activate: (state) ->
-    @keybindingResolverView = new KeybindingResolverView(state)
+    @keybindingResolverView = new KeyBindingResolverView(state)
 
   deactivate: ->
     @keybindingResolverView.destroy()
