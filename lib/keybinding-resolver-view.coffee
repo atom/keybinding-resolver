@@ -36,6 +36,9 @@ class KeybindingResolverView extends View
     @subscribe atom.keymap, "keybinding-triggered", (keybinding, alternativeKeybindings) =>
       @update(keybinding, alternativeKeybindings)
 
+    @subscribe atom.keymap, "parital-keybindings-triggered", (keystrokes, keybindings) =>
+      @updatePartial(keystrokes, keybindings)
+
   detach: ->
     super
 
@@ -45,6 +48,7 @@ class KeybindingResolverView extends View
 
     @commands.html $$ ->
       @table class: 'table-condensed', =>
+
         @tr class: 'matched selected text-success', =>
           @td class: 'command', usedKeybinding.command
           @td class: 'selector', usedKeybinding.selector
@@ -53,5 +57,18 @@ class KeybindingResolverView extends View
         for keybinding in alternativeKeybindings
           @tr class: 'unmatched text-subtle', =>
             @td class: 'command', keybinding.command
+            @td class: 'selector', keybinding.selector
+            @td class: 'source', keybinding.source
+
+  updatePartial: (keystrokes, keybindings) ->
+    @keystroke.html $$ ->
+      @span class: 'keystroke', "#{keystrokes} (partial)"
+
+    @commands.html $$ ->
+      @table class: 'table-condensed', =>
+        for keybinding in keybindings
+          @tr class: 'unmatched text-subtle', =>
+            @td class: 'command', keybinding.command
+            @td class: 'keystrokes', keybinding.keystrokes
             @td class: 'selector', keybinding.selector
             @td class: 'source', keybinding.source
