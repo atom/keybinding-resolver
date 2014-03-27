@@ -39,6 +39,10 @@ class KeybindingResolverView extends View
     @subscribe atom.keymap, "parital-keybindings-triggered", (keystrokes, keybindings) =>
       @updatePartial(keystrokes, keybindings)
 
+    @subscribe atom.keymap, "no-keybindings-triggered", (keystrokes) =>
+      @keystroke.html $$ -> @span class: 'keystroke', "#{keystrokes}"
+      @commands.empty()
+
   detach: ->
     super
 
