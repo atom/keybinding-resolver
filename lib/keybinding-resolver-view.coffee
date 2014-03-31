@@ -58,7 +58,7 @@ class KeyBindingResolverView extends View
 
     @commands.html $$ ->
       @table class: 'table-condensed', =>
-        if keyboardEventTarget
+        if keyBinding
           @tr class: 'used', =>
             @td class: 'command', keyBinding.command
             @td class: 'selector', keyBinding.selector
