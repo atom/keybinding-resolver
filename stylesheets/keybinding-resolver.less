@@ -1,7 +1,7 @@
 @import "ui-variables";
 @import "octicon-mixins";
 
-.keybinding-resolver {
+.key-binding-resolver {
   -webkit-flex: 0.25;
   overflow: scroll;
 
@@ -10,7 +10,19 @@
   }
 
   table {
-    .matched .command {
+    .used {
+      color: @text-color-success;
+    }
+
+    .unused {
+      color: @text-color;
+    }
+
+    .unmatched {
+      color: @text-color-subtle;
+    }
+
+    .used .command, .unused .command{
       .octicon(check);
     }
 

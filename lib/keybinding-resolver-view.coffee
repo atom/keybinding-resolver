@@ -3,18 +3,18 @@ _ = require 'underscore-plus'
 Humanize = require 'humanize-plus'
 
 module.exports =
-class KeybindingResolverView extends View
+class KeyBindingResolverView extends View
   @content: ->
-    @div class: 'keybinding-resolver tool-panel pannel panel-bottom padding', =>
+    @div class: 'key-binding-resolver tool-panel pannel panel-bottom padding', =>
       @div class: 'panel-heading padded', =>
-        @span 'Keybinding Resolver: '
+        @span 'Key Binding Resolver: '
         @span outlet: 'keystroke', 'Press any key'
       @div outlet: 'commands', class: 'panel-body padded'
 
   initialize: ({attached})->
     @attach() if attached
 
-    atom.workspaceView.command 'keybinding-resolver:toggle', => @toggle()
+    atom.workspaceView.command 'key-binding-resolver:toggle', => @toggle()
     atom.workspaceView.command 'core:cancel core:close', => @detach()
 
     @on 'click', '.source', (event) -> atom.workspaceView.open(event.target.innerText)
@@ -33,38 +33,58 @@ class KeybindingResolverView extends View
 
   attach: ->
     atom.workspaceView.prependToBottom(this)
-    $(document).preempt 'keydown', @handleEvent
+    @subscribe atom.keymap, "matched", ({keystrokes, binding, keyboardEventTarget}) =>
+      @update(keystrokes, binding, keyboardEventTarget)
+
+    @subscribe atom.keymap, "matched-partially", ({keystrokes, partiallyMatchedBindings, keyboardEventTarget}) =>
+      @updatePartial(keystrokes, partiallyMatchedBindings)
+
+    @subscribe atom.keymap, "match-failed", ({keystrokes, keyboardEventTarget}) =>
+      @update(keystrokes, null, keyboardEventTarget)
 
   detach: ->
     super
-    $(document).off 'keydown', @handleEvent
+    @unsubscribe()
 
-  handleEvent: (event) =>
-    keystroke = atom.keymap.keystrokeStringForEvent(event)
-    keyBindings = atom.keymap.keyBindingsForKeystroke(keystroke)
-    matchedKeyBindings = atom.keymap.keyBindingsMatchingElement(document.activeElement, keyBindings)
-    unmatchedKeyBindings = keyBindings.filter (binding) ->
-      for matchedBinding in matchedKeyBindings
-        return false if _.isEqual(matchedBinding, binding)
-      true
-
-    keyBindingsLength = Object.keys(keyBindings).length
+  update: (keystrokes, keyBinding, keyboardEventTarget) ->
     @keystroke.html $$ ->
-      @span class: 'keystroke', keystroke
+      @span class: 'keystroke', keystrokes
 
-    createListItem = (classString, binding) ->
-      @tr class: classString, =>
-        @td class: 'command', binding.command
-        @td class: 'selector', binding.selector
-        @td class: 'source', binding.source
+    unusedKeyBindings = atom.keymap.findKeyBindings({keystrokes, target: keyboardEventTarget}).filter (binding) ->
+      binding != keyBinding
+
+    unmatchedKeyBindings = atom.keymap.findKeyBindings({keystrokes}).filter (binding) ->
+      binding != keyBinding and keyBinding not in unusedKeyBindings
 
     @commands.html $$ ->
       @table class: 'table-condensed', =>
-        for binding, index in matchedKeyBindings
-          classString = 'matched'
-          classString += ' selected text-success' if index == 0
-          createListItem.call this, classString, binding
+        if keyBinding
+          @tr class: 'used', =>
+            @td class: 'command', keyBinding.command
+            @td class: 'selector', keyBinding.selector
+            @td class: 'source', keyBinding.source
+
+        for binding in unusedKeyBindings
+          @tr class: 'unused', =>
+            @td class: 'command', binding.command
+            @td class: 'selector', binding.selector
+            @td class: 'source', binding.source
 
         for binding in unmatchedKeyBindings
-          classString = 'unmatched text-subtle'
-          createListItem.call this, classString, binding
+          @tr class: 'unmatched', =>
+            @td class: 'command', binding.command
+            @td class: 'selector', binding.selector
+            @td class: 'source', binding.source
+
+  updatePartial: (keystrokes, keyBindings) ->
+    @keystroke.html $$ ->
+      @span class: 'keystroke', "#{keystrokes} (partial)"
+
+    @commands.html $$ ->
+      @table class: 'table-condensed', =>
+        for binding in keyBindings
+          @tr class: 'unused', =>
+            @td class: 'command', binding.command
+            @td class: 'keystrokes', binding.keystrokes
+            @td class: 'selector', binding.selector
+            @td class: 'source', binding.source
