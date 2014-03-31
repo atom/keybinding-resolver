@@ -1,6 +1,6 @@
 {
   "name": "keybinding-resolver",
-  "main": "./lib/keybinding-resolver",
+  "main": "./lib/main",
   "version": "0.12.0",
   "private": true,
   "description": "Show what commands a keybinding resolves to",
