@@ -33,46 +33,47 @@ class KeyBindingResolverView extends View
 
   attach: ->
     atom.workspaceView.prependToBottom(this)
-    @subscribe atom.keymap, "key-binding-matched", (usedKeyBinding, unusedKeyBindings) =>
-      @update(usedKeyBinding, unusedKeyBindings)
+    @subscribe atom.keymap, "matched", ({keystrokes, binding, keyboardEventTarget}) =>
+      @update(keystrokes, binding, keyboardEventTarget)
 
-    @subscribe atom.keymap, "parital-key-bindings-matched", (keystrokes, keyBindings) =>
+    @subscribe atom.keymap, "matched-partially", ({keystrokes, partiallyMatchedBindings, keyboardEventTarget}) =>
       @updatePartial(keystrokes, keyBindings)
 
-    @subscribe atom.keymap, "no-key-binding-matched", (keystrokes) =>
-      @keystroke.html $$ -> @span class: 'keystroke', "#{keystrokes}"
-      @commands.empty()
+    @subscribe atom.keymap, "match-failed", ({keystrokes, keyboardEventTarget}) =>
+      @update(keystrokes, null, keyboardEventTarget)
 
   detach: ->
     super
     @unsubscribe()
 
-  update: (usedKeyBinding, unusedKeyBindings) ->
+  update: (keystrokes, keyBinding, keyboardEventTarget) ->
     @keystroke.html $$ ->
-      @span class: 'keystroke', usedKeyBinding.keystrokes
+      @span class: 'keystroke', keystrokes
+
+    unusedKeyBindings = atom.keymap.findKeyBindings({keystrokes, target: keyboardEventTarget}).filter (binding) ->
+      binding != keyBinding
+
+    unmatchedKeyBindings = atom.keymap.findKeyBindings({keystrokes}).filter (binding) ->
+      binding != keyBinding and keyBinding not in unusedKeyBindings
 
     @commands.html $$ ->
       @table class: 'table-condensed', =>
         @tr class: 'used', =>
-          @td class: 'command', usedKeyBinding.command
-          @td class: 'selector', usedKeyBinding.selector
-          @td class: 'source', usedKeyBinding.source
+          @td class: 'command', keyBinding.command
+          @td class: 'selector', keyBinding.selector
+          @td class: 'source', keyBinding.source
 
-        for keyBinding in unusedKeyBindings
+        for binding in unusedKeyBindings
           @tr class: 'unused', =>
-            @td class: 'command', keyBinding.command
-            @td class: 'selector', keyBinding.selector
-            @td class: 'source', keyBinding.source
+            @td class: 'command', binding.command
+            @td class: 'selector', binding.selector
+            @td class: 'source', binding.source
 
-        matchedKeyBindings = atom.keymap.findKeyBindings(keystrokes: usedKeyBinding.keystrokes)
-        matchedKeyBindings = matchedKeyBindings.filter (keyBinding) ->
-          keyBinding != usedKeyBinding and keyBinding not in unusedKeyBindings
-
-        for keyBinding in matchedKeyBindings
+        for binding in unmatchedKeyBindings
           @tr class: 'unmatched', =>
-            @td class: 'command', keyBinding.command
-            @td class: 'selector', keyBinding.selector
-            @td class: 'source', keyBinding.source
+            @td class: 'command', binding.command
+            @td class: 'selector', binding.selector
+            @td class: 'source', binding.source
 
   updatePartial: (keystrokes, keyBindings) ->
     @keystroke.html $$ ->
