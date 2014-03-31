@@ -1,2 +1,2 @@
 '.workspace':
-  'cmd-.': 'keybinding-resolver:toggle'
+  'cmd-.': 'key-binding-resolver:toggle'
