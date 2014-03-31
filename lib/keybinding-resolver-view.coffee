@@ -37,7 +37,7 @@ class KeyBindingResolverView extends View
       @update(keystrokes, binding, keyboardEventTarget)
 
     @subscribe atom.keymap, "matched-partially", ({keystrokes, partiallyMatchedBindings, keyboardEventTarget}) =>
-      @updatePartial(keystrokes, keyBindings)
+      @updatePartial(keystrokes, partiallyMatchedBindings)
 
     @subscribe atom.keymap, "match-failed", ({keystrokes, keyboardEventTarget}) =>
       @update(keystrokes, null, keyboardEventTarget)
@@ -82,9 +82,9 @@ class KeyBindingResolverView extends View
 
     @commands.html $$ ->
       @table class: 'table-condensed', =>
-        for keyBinding in keyBindings
+        for binding in keyBindings
           @tr class: 'unused', =>
-            @td class: 'command', keyBinding.command
-            @td class: 'keystrokes', keyBinding.keystrokes
-            @td class: 'selector', keyBinding.selector
-            @td class: 'source', keyBinding.source
+            @td class: 'command', binding.command
+            @td class: 'keystrokes', binding.keystrokes
+            @td class: 'selector', binding.selector
+            @td class: 'source', binding.source
