@@ -54,7 +54,7 @@ class KeyBindingResolverView extends View
       binding != keyBinding
 
     unmatchedKeyBindings = atom.keymap.findKeyBindings({keystrokes}).filter (binding) ->
-      binding != keyBinding and keyBinding not in unusedKeyBindings
+      binding != keyBinding and binding not in unusedKeyBindings
 
     @commands.html $$ ->
       @table class: 'table-condensed', =>
