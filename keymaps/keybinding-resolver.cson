@@ -1,0 +1,5 @@
+'.workspace .platform-darwin':
+  'cmd-.': 'key-binding-resolver:toggle'
+
+'.workspace .platform-win32':
+  'ctrl-.': 'key-binding-resolver:toggle'
