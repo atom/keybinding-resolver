@@ -3,3 +3,6 @@
 
 '.workspace .platform-win32':
   'ctrl-.': 'key-binding-resolver:toggle'
+
+'.workspace .platform-linux':
+  'ctrl-.': 'key-binding-resolver:toggle'
