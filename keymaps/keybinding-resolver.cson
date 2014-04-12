@@ -1,8 +1,8 @@
-'.workspace .platform-darwin':
+'.platform-darwin':
   'cmd-.': 'key-binding-resolver:toggle'
 
-'.workspace .platform-win32':
+'.platform-win32':
   'ctrl-.': 'key-binding-resolver:toggle'
 
-'.workspace .platform-linux':
+'.platform-linux':
   'ctrl-.': 'key-binding-resolver:toggle'
