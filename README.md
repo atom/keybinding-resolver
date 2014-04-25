@@ -1,4 +1,4 @@
-# Keybinding Resolver package
+# Keybinding Resolver package [![Build Status](https://travis-ci.org/atom/keybinding-resolver.svg?branch=master)](https://travis-ci.org/atom/keybinding-resolver)
 
 Shows what commands a keybinding resolves to.
 
