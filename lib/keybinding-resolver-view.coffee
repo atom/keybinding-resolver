@@ -1,6 +1,4 @@
-_ = require 'underscore-plus'
-{$, $$, View} = require 'atom'
-Humanize = require 'humanize-plus'
+{$$, View} = require 'atom'
 
 module.exports =
 class KeyBindingResolverView extends View
