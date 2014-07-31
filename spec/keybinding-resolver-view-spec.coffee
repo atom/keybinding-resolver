@@ -23,7 +23,7 @@ describe "KeyBindingResolverView", ->
       atom.keymap.bindKeys 'name', '.never-again', 'x': 'unmatch-2'
 
       atom.workspaceView.trigger 'key-binding-resolver:toggle'
-      $(document).trigger keydownEvent('x', target: atom.workspaceView)
+      document.dispatchEvent keydownEvent('x', target: atom.workspaceView).originalEvent
       expect(atom.workspaceView.find('.key-binding-resolver .used')).toHaveLength 1
       expect(atom.workspaceView.find('.key-binding-resolver .unused')).toHaveLength 1
       expect(atom.workspaceView.find('.key-binding-resolver .unmatched')).toHaveLength 1
