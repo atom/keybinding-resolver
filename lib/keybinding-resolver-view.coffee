@@ -31,13 +31,13 @@ class KeyBindingResolverView extends View
 
   attach: ->
     atom.workspaceView.prependToBottom(this)
-    @subscribe atom.keymap, "matched", ({keystrokes, binding, keyboardEventTarget}) =>
+    @subscribe atom.keymap.onDidMatchBinding ({keystrokes, binding, keyboardEventTarget}) =>
       @update(keystrokes, binding, keyboardEventTarget)
 
-    @subscribe atom.keymap, "matched-partially", ({keystrokes, partiallyMatchedBindings, keyboardEventTarget}) =>
+    @subscribe atom.keymap.onDidPartiallyMatchBindings ({keystrokes, partiallyMatchedBindings, keyboardEventTarget}) =>
       @updatePartial(keystrokes, partiallyMatchedBindings)
 
-    @subscribe atom.keymap, "match-failed", ({keystrokes, keyboardEventTarget}) =>
+    @subscribe atom.keymap.onDidFailToMatchBinding ({keystrokes, keyboardEventTarget}) =>
       @update(keystrokes, null, keyboardEventTarget)
 
   detach: ->
