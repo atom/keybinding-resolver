@@ -13,7 +13,7 @@ class KeyBindingResolverView extends View
   initialize: ({attached})->
     @attach() if attached
 
-    @on 'click', '.source', (event) -> atom.workspaceView.open(event.target.innerText)
+    @on 'click', '.source', (event) -> atom.workspace.open(event.target.innerText)
 
   serialize: ->
     attached: @hasParent()
