@@ -1,4 +1,4 @@
-{CompositeDisposable} = require 'atom'
+{Disposable, CompositeDisposable} = require 'atom'
 {$$, View} = require 'space-pen'
 
 module.exports =
@@ -31,8 +31,10 @@ class KeyBindingResolverView extends View
       @attach()
 
   attach: ->
-    atom.workspaceView.prependToBottom(this)
     @disposables = new CompositeDisposable
+
+    panel = atom.workspace.addBottomPanel(item: this)
+    @disposables.add new Disposable -> panel.destroy()
 
     @disposables.add atom.keymap.onDidMatchBinding ({keystrokes, binding, keyboardEventTarget}) =>
       @update(keystrokes, binding, keyboardEventTarget)
@@ -44,7 +46,6 @@ class KeyBindingResolverView extends View
       @update(keystrokes, null, keyboardEventTarget)
 
   detach: ->
-    super
     @disposables.dispose()
 
   update: (keystrokes, keyBinding, keyboardEventTarget) ->
