@@ -22,7 +22,7 @@ class KeyBindingResolverView extends View
     @detach()
 
   toggle: ->
-    if @hasParent()
+    if @panel?.isVisible()
       @detach()
     else
       @attach()
@@ -30,8 +30,10 @@ class KeyBindingResolverView extends View
   attach: ->
     @disposables = new CompositeDisposable
 
-    panel = atom.workspace.addBottomPanel(item: this)
-    @disposables.add new Disposable -> panel.destroy()
+    @panel = atom.workspace.addBottomPanel(item: this)
+    @disposables.add new Disposable =>
+      @panel.destroy()
+      @panel = null
 
     @disposables.add atom.keymap.onDidMatchBinding ({keystrokes, binding, keyboardEventTarget}) =>
       @update(keystrokes, binding, keyboardEventTarget)

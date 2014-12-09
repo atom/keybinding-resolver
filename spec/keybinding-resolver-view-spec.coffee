@@ -12,10 +12,15 @@ describe "KeyBindingResolverView", ->
   describe "when the key-binding-resolver:toggle event is triggered", ->
     it "attaches and then detaches the view", ->
       expect(workspaceElement.querySelector('.key-binding-resolver')).not.toExist()
+
       atom.commands.dispatch workspaceElement, 'key-binding-resolver:toggle'
       expect(workspaceElement.querySelector('.key-binding-resolver')).toExist()
+
       atom.commands.dispatch workspaceElement, 'key-binding-resolver:toggle'
       expect(workspaceElement.querySelector('.key-binding-resolver')).not.toExist()
+
+      atom.commands.dispatch workspaceElement, 'key-binding-resolver:toggle'
+      expect(workspaceElement.querySelector('.key-binding-resolver')).toExist()
 
   describe "when a keydown event occurs", ->
     it "displays all commands for the event", ->
