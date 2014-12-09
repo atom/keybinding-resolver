@@ -13,9 +13,6 @@ class KeyBindingResolverView extends View
   initialize: ({attached})->
     @attach() if attached
 
-    atom.workspaceView.command 'key-binding-resolver:toggle', => @toggle()
-    atom.workspaceView.command 'core:cancel core:close', => @detach()
-
     @on 'click', '.source', (event) -> atom.workspaceView.open(event.target.innerText)
 
   serialize: ->
