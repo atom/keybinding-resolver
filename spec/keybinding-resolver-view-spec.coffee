@@ -19,9 +19,9 @@ describe "KeyBindingResolverView", ->
 
   describe "when a keydown event occurs", ->
     it "displays all commands for the event", ->
-      atom.keymap.bindKeys 'name', '.workspace', 'x': 'match-1'
-      atom.keymap.bindKeys 'name', '.workspace', 'x': 'match-2'
-      atom.keymap.bindKeys 'name', '.never-again', 'x': 'unmatch-2'
+      atom.keymap.addKeymap 'name', '.workspace': 'x': 'match-1'
+      atom.keymap.addKeymap 'name', '.workspace': 'x': 'match-2'
+      atom.keymap.addKeymap 'name', '.never-again': 'x': 'unmatch-2'
 
       atom.commands.dispatch workspaceElement, 'key-binding-resolver:toggle'
       document.dispatchEvent keydownEvent('x', target: workspaceElement).originalEvent
