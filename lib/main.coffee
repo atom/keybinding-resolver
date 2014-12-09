@@ -5,6 +5,9 @@ module.exports =
 
   activate: (state) ->
     @keybindingResolverView = new KeyBindingResolverView(state)
+    atom.commands.add 'atom-workspace',
+      'key-binding-resolver:toggle': => @keybindingResolverView.toggle()
+      'core:cancel core:close': => @keybindingResolverView.detach()
 
   deactivate: ->
     @keybindingResolverView.destroy()

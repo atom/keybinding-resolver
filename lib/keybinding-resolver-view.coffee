@@ -1,4 +1,5 @@
-{$$, View} = require 'atom'
+{Disposable, CompositeDisposable} = require 'atom'
+{$$, View} = require 'space-pen'
 
 module.exports =
 class KeyBindingResolverView extends View
@@ -12,10 +13,7 @@ class KeyBindingResolverView extends View
   initialize: ({attached})->
     @attach() if attached
 
-    atom.workspaceView.command 'key-binding-resolver:toggle', => @toggle()
-    atom.workspaceView.command 'core:cancel core:close', => @detach()
-
-    @on 'click', '.source', (event) -> atom.workspaceView.open(event.target.innerText)
+    @on 'click', '.source', (event) -> atom.workspace.open(event.target.innerText)
 
   serialize: ->
     attached: @hasParent()
@@ -24,25 +22,30 @@ class KeyBindingResolverView extends View
     @detach()
 
   toggle: ->
-    if @hasParent()
+    if @panel?.isVisible()
       @detach()
     else
       @attach()
 
   attach: ->
-    atom.workspaceView.prependToBottom(this)
-    @subscribe atom.keymap.onDidMatchBinding ({keystrokes, binding, keyboardEventTarget}) =>
+    @disposables = new CompositeDisposable
+
+    @panel = atom.workspace.addBottomPanel(item: this)
+    @disposables.add new Disposable =>
+      @panel.destroy()
+      @panel = null
+
+    @disposables.add atom.keymap.onDidMatchBinding ({keystrokes, binding, keyboardEventTarget}) =>
       @update(keystrokes, binding, keyboardEventTarget)
 
-    @subscribe atom.keymap.onDidPartiallyMatchBindings ({keystrokes, partiallyMatchedBindings, keyboardEventTarget}) =>
+    @disposables.add atom.keymap.onDidPartiallyMatchBindings ({keystrokes, partiallyMatchedBindings, keyboardEventTarget}) =>
       @updatePartial(keystrokes, partiallyMatchedBindings)
 
-    @subscribe atom.keymap.onDidFailToMatchBinding ({keystrokes, keyboardEventTarget}) =>
+    @disposables.add atom.keymap.onDidFailToMatchBinding ({keystrokes, keyboardEventTarget}) =>
       @update(keystrokes, null, keyboardEventTarget)
 
   detach: ->
-    super
-    @unsubscribe()
+    @disposables.dispose()
 
   update: (keystrokes, keyBinding, keyboardEventTarget) ->
     @keystroke.html $$ ->

@@ -8,5 +8,7 @@
   "engines": {
     "atom": ">0.79.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "space-pen": "^4.2.2"
+  }
 }
