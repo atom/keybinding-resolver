@@ -1,5 +1,6 @@
 KeyBindingResolverView = require '../lib/keybinding-resolver-view'
-{$, WorkspaceView} = require 'atom'
+{WorkspaceView} = require 'atom'
+{$} = require 'space-pen'
 
 describe "KeyBindingResolverView", ->
   beforeEach ->
