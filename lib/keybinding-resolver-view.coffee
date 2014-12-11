@@ -45,7 +45,7 @@ class KeyBindingResolverView extends View
       @update(keystrokes, null, keyboardEventTarget)
 
   detach: ->
-    @disposables.dispose()
+    @disposables?.dispose()
 
   update: (keystrokes, keyBinding, keyboardEventTarget) ->
     @keystroke.html $$ ->
