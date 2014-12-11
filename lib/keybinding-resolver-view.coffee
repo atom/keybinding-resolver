@@ -16,7 +16,7 @@ class KeyBindingResolverView extends View
     @on 'click', '.source', (event) -> atom.workspace.open(event.target.innerText)
 
   serialize: ->
-    attached: @hasParent()
+    attached: @panel?.isVisible()
 
   destroy: ->
     @detach()
