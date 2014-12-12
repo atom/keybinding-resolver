@@ -4,7 +4,7 @@
 module.exports =
 class KeyBindingResolverView extends View
   @content: ->
-    @div class: 'key-binding-resolver tool-panel pannel panel-bottom padding', =>
+    @div class: 'key-binding-resolver', =>
       @div class: 'panel-heading padded', =>
         @span 'Key Binding Resolver: '
         @span outlet: 'keystroke', 'Press any key'
