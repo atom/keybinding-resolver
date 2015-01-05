@@ -9,6 +9,6 @@
     "atom": ">0.79.0"
   },
   "dependencies": {
-    "space-pen": "^4.2.2"
+    "space-pen": "^5.0.0"
   }
 }
