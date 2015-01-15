@@ -29,7 +29,7 @@ describe "KeyBindingResolverView", ->
       atom.keymap.addKeymap 'name', '.never-again': 'x': 'unmatch-2'
 
       atom.commands.dispatch workspaceElement, 'key-binding-resolver:toggle'
-      document.dispatchEvent keydownEvent('x', target: workspaceElement).originalEvent
+      document.dispatchEvent atom.keymaps.constructor.buildKeydownEvent('x', target: workspaceElement)
       expect(workspaceElement.querySelectorAll('.key-binding-resolver .used')).toHaveLength 1
       expect(workspaceElement.querySelectorAll('.key-binding-resolver .unused')).toHaveLength 1
       expect(workspaceElement.querySelectorAll('.key-binding-resolver .unmatched')).toHaveLength 1
