@@ -10,9 +10,7 @@ class KeyBindingResolverView extends View
         @span outlet: 'keystroke', 'Press any key'
       @div outlet: 'commands', class: 'panel-body padded'
 
-  initialize: ({attached})->
-    @attach() if attached
-
+  initialize: ->
     @on 'click', '.source', (event) -> atom.workspace.open(event.target.innerText)
 
   serialize: ->

@@ -1,16 +1,21 @@
-KeyBindingResolverView = require './keybinding-resolver-view'
-
 module.exports =
   keybindingResolverView: null
 
-  activate: (state) ->
-    @keybindingResolverView = new KeyBindingResolverView(state)
+  activate: ({attached}={}) ->
+    @createView().toggle() if attached
     atom.commands.add 'atom-workspace',
-      'key-binding-resolver:toggle': => @keybindingResolverView.toggle()
-      'core:cancel core:close': => @keybindingResolverView.detach()
+      'key-binding-resolver:toggle': => @createView().toggle()
+      'core:cancel': => @createView().detach()
+      'core:close': => @createView().detach()
+
+  createView: ->
+    unless @keybindingResolverView?
+      KeyBindingResolverView = require './keybinding-resolver-view'
+      @keybindingResolverView = new KeyBindingResolverView()
+    @keybindingResolverView
 
   deactivate: ->
-    @keybindingResolverView.destroy()
+    @keybindingResolverView?.destroy()
 
   serialize: ->
-    @keybindingResolverView.serialize()
+    @keybindingResolverView?.serialize()
