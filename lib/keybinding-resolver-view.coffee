@@ -1,5 +1,5 @@
 {Disposable, CompositeDisposable} = require 'atom'
-{$$, View} = require 'space-pen'
+{$$, View} = require 'atom-space-pen-views'
 
 module.exports =
 class KeyBindingResolverView extends View

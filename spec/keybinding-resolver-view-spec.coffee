@@ -1,5 +1,5 @@
 KeyBindingResolverView = require '../lib/keybinding-resolver-view'
-{$} = require 'space-pen'
+{$} = require 'atom-space-pen-views'
 
 describe "KeyBindingResolverView", ->
   workspaceElement = null
