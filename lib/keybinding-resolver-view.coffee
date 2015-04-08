@@ -33,13 +33,13 @@ class KeyBindingResolverView extends View
       @panel.destroy()
       @panel = null
 
-    @disposables.add atom.keymap.onDidMatchBinding ({keystrokes, binding, keyboardEventTarget}) =>
+    @disposables.add atom.keymaps.onDidMatchBinding ({keystrokes, binding, keyboardEventTarget}) =>
       @update(keystrokes, binding, keyboardEventTarget)
 
-    @disposables.add atom.keymap.onDidPartiallyMatchBindings ({keystrokes, partiallyMatchedBindings, keyboardEventTarget}) =>
+    @disposables.add atom.keymaps.onDidPartiallyMatchBindings ({keystrokes, partiallyMatchedBindings, keyboardEventTarget}) =>
       @updatePartial(keystrokes, partiallyMatchedBindings)
 
-    @disposables.add atom.keymap.onDidFailToMatchBinding ({keystrokes, keyboardEventTarget}) =>
+    @disposables.add atom.keymaps.onDidFailToMatchBinding ({keystrokes, keyboardEventTarget}) =>
       @update(keystrokes, null, keyboardEventTarget)
 
   detach: ->
@@ -49,10 +49,10 @@ class KeyBindingResolverView extends View
     @keystroke.html $$ ->
       @span class: 'keystroke', keystrokes
 
-    unusedKeyBindings = atom.keymap.findKeyBindings({keystrokes, target: keyboardEventTarget}).filter (binding) ->
+    unusedKeyBindings = atom.keymaps.findKeyBindings({keystrokes, target: keyboardEventTarget}).filter (binding) ->
       binding != keyBinding
 
-    unmatchedKeyBindings = atom.keymap.findKeyBindings({keystrokes}).filter (binding) ->
+    unmatchedKeyBindings = atom.keymaps.findKeyBindings({keystrokes}).filter (binding) ->
       binding != keyBinding and binding not in unusedKeyBindings
 
     @commands.html $$ ->
