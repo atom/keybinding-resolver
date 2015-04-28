@@ -11,7 +11,7 @@ class KeyBindingResolverView extends View
       @div outlet: 'commands', class: 'panel-body padded'
 
   initialize: ->
-    @on 'click', '.source', (event) -> atom.workspace.open(event.target.innerText)
+    @on 'click', '.source', ({target}) => @openKeybindingFile(target.innerText)
 
   serialize: ->
     attached: @panel?.isVisible()
@@ -87,3 +87,19 @@ class KeyBindingResolverView extends View
             @td class: 'keystrokes', binding.keystrokes
             @td class: 'selector', binding.selector
             @td class: 'source', binding.source
+
+  isInAsarArchive: (pathToCheck) ->
+    {resourcePath} = atom.getLoadSettings()
+    pathToCheck.startsWith("#{resourcePath}#{path.sep}") and path.extname(resourcePath) is '.asar'
+
+  extractBundledKeymap: (keymapPath) ->
+    bundledKeymaps = require(path.join(atom.getLoadSettings().resourcePath, 'package.json'))?._atomKeymaps
+    keymapName = path.basename(keymapPath)
+    keymapPath = path.join(require('temp').mkdirSync('atom-bundled-keymap-'), keymapName)
+    keymap = bundledKeymaps?[keymapName] ? {}
+    require('fs-plus').writeFileSync(keymapPath, JSON.stringify(keymap, null, 2))
+    keymapPath
+
+  openKeybindingFile: (keymapPath) ->
+    keymapPath = @extractBundledKeymap(keymapPath) if @isInAsarArchive(keymapPath)
+    atom.workspace.open(keymapPath)
