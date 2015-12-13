@@ -12,6 +12,19 @@ class KeyBindingResolverView extends View
       @div outlet: 'commands', class: 'panel-body padded'
 
   initialize: ->
+    @on 'click', 'td:not(.source)', ({target}) =>
+      text = target.innerText
+      atom.clipboard.write(text)
+      console.log(text)
+      notification = atom.notifications.addInfo 'info',
+        detail: "\"#{text}\" copied to clipboard"
+        dismissable: true
+      setTimeout =>
+        console.log "removing notification"
+        notification.dismiss()
+      , 1500
+
+
     @on 'click', '.source', ({target}) => @openKeybindingFile(target.innerText)
 
   serialize: ->
