@@ -34,19 +34,21 @@ class KeyBindingResolverView extends View
       @panel.destroy()
       @panel = null
 
-    @disposables.add atom.keymaps.onDidMatchBinding ({keystrokes, binding, keyboardEventTarget}) =>
-      @update(keystrokes, binding, keyboardEventTarget)
+    @disposables.add atom.keymaps.onDidMatchBinding ({keystrokes, binding, keyboardEventTarget, eventType}) =>
+      @update(keystrokes, binding, keyboardEventTarget, eventType)
 
-    @disposables.add atom.keymaps.onDidPartiallyMatchBindings ({keystrokes, partiallyMatchedBindings, keyboardEventTarget}) =>
+    @disposables.add atom.keymaps.onDidPartiallyMatchBindings ({keystrokes, partiallyMatchedBindings, keyboardEventTarget, eventType}) =>
       @updatePartial(keystrokes, partiallyMatchedBindings)
 
-    @disposables.add atom.keymaps.onDidFailToMatchBinding ({keystrokes, keyboardEventTarget}) =>
-      @update(keystrokes, null, keyboardEventTarget)
+    @disposables.add atom.keymaps.onDidFailToMatchBinding ({keystrokes, keyboardEventTarget, eventType}) =>
+      @update(keystrokes, null, keyboardEventTarget, eventType)
 
   detach: ->
     @disposables?.dispose()
 
-  update: (keystrokes, keyBinding, keyboardEventTarget) ->
+  update: (keystrokes, keyBinding, keyboardEventTarget, eventType) ->
+    return if eventType is 'keyup' and keyBinding is null
+
     @keystroke.html $$ ->
       @span class: 'keystroke', keystrokes
 
