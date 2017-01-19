@@ -1,3 +1,5 @@
+KeyBindingResolverView = require './keybinding-resolver-view'
+
 module.exports =
   keybindingResolverView: null
 
@@ -9,10 +11,7 @@ module.exports =
       'core:close': => @createView().detach()
 
   createView: ->
-    unless @keybindingResolverView?
-      KeyBindingResolverView = require './keybinding-resolver-view'
-      @keybindingResolverView = new KeyBindingResolverView()
-    @keybindingResolverView
+    @keybindingResolverView ?= new KeyBindingResolverView()
 
   deactivate: ->
     @keybindingResolverView?.destroy()
