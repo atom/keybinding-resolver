@@ -1,7 +1,13 @@
 etch = require 'etch'
 
+etch.setScheduler({
+  updateDocument: (callback) -> callback()
+  getNextUpdatePromise: -> Promise.resolve()
+})
+
 describe "KeyBindingResolverView", ->
   workspaceElement = null
+
   beforeEach ->
     workspaceElement = atom.views.getView(atom.workspace)
 
