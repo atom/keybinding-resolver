@@ -1,7 +1,7 @@
 {
   "name": "keybinding-resolver",
   "main": "./lib/main",
-  "version": "0.36.4",
+  "version": "0.37.0",
   "description": "Show what commands a keybinding resolves to",
   "license": "MIT",
   "repository": "https://github.com/atom/keybinding-resolver",
