@@ -14,6 +14,10 @@
       color: @text-color-success;
     }
 
+    .aborted {
+      color: @text-color-warning;
+    }
+
     .unused {
       color: @text-color;
     }
@@ -22,8 +26,12 @@
       color: @text-color-subtle;
     }
 
-    .used .command, .unused .command{
+    .used .command, .unused .command {
       .octicon(check);
+    }
+
+    .aborted .command {
+      .octicon(stop);
     }
 
     .unmatched .command {
