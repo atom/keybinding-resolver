@@ -2,11 +2,15 @@
 @import "octicon-mixins";
 
 .key-binding-resolver {
-  -webkit-flex: 0.25;
   overflow: auto;
 
   .keystroke {
     margin-right: 1em;
+  }
+
+  .panel-heading {
+    position: sticky;
+    top: 0;
   }
 
   table {
@@ -22,7 +26,7 @@
       color: @text-color-subtle;
     }
 
-    .used .command, .unused .command{
+    .used .command, .unused .command {
       .octicon(check);
     }
 
