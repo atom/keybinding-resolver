@@ -1,9 +1,7 @@
-/** @babel */
-
 const {it, fit, ffit, beforeEach} = require('./async-spec-helpers');
 const etch = require('etch');
 
-describe("KeyBindingResolverView", function() {
+describe("KeyBindingResolverView", () => {
   let workspaceElement;
 
   beforeEach(async () => {
