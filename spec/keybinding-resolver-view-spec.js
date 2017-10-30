@@ -37,6 +37,28 @@ describe('KeyBindingResolverView', () => {
         expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
       })
     })
+
+    it('focuses the view if it is not visible instead of destroying it', () => {
+      const visibilitySpy = jasmine.createSpy('onDidChangeVisible')
+      atom.workspace.getBottomDock().onDidChangeVisible(visibilitySpy)
+
+      expect(bottomDockElement.querySelector('.key-binding-resolver')).not.toExist()
+
+      atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
+      waitsFor(() => visibilitySpy.callCount === 1)
+      runs(() => {
+        expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
+
+        atom.workspace.getBottomDock().hide()
+        atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
+      })
+
+      waitsFor(() => visibilitySpy.callCount === 3) // the second count happened when the dock was toggled
+      runs(() => {
+        expect(atom.workspace.getBottomDock().isVisible()).toBe(true)
+        expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
+      })
+    })
   })
 
   describe('when a keydown event occurs', () => {
