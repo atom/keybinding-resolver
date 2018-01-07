@@ -1,8 +1,8 @@
 '.platform-darwin':
-  'cmd-.': 'key-binding-resolver:toggle'
+  'cmd-.': 'keybinding-resolver:toggle'
 
 '.platform-win32':
-  'ctrl-.': 'key-binding-resolver:toggle'
+  'ctrl-.': 'keybinding-resolver:toggle'
 
 '.platform-linux':
-  'ctrl-.': 'key-binding-resolver:toggle'
+  'ctrl-.': 'keybinding-resolver:toggle'
