@@ -27,15 +27,12 @@ describe('KeyBindingResolverView', () => {
 
       waitsFor(() => visibilitySpy.callCount === 2)
       runs(() => {
-        expect(bottomDockElement.querySelector('.key-binding-resolver')).not.toExist()
+        expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
 
         atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
       })
 
       waitsFor(() => visibilitySpy.callCount === 3)
-      runs(() => {
-        expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
-      })
     })
 
     it('focuses the view if it is not visible instead of destroying it', () => {
