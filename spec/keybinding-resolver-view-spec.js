@@ -62,10 +62,6 @@ describe('KeyBindingResolverView', () => {
     })
 
     it('displays all commands for the keydown event but does not clear for the keyup when there is no keyup binding', async () => {
-      // NOTE: This test does not pass on VSTS macOS builds.  It will be re-enabled once
-      // the underlying problem is solved.  See atom/keybinding-resolver#60 for details.
-      if (process.env.CI_PROVIDER === 'VSTS') { return }
-
       atom.keymaps.add('name', {
         '.workspace': {
           'x': 'match-1'
