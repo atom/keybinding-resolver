@@ -3,6 +3,9 @@
 
 Shows what commands a keybinding resolves to.
 
-You can open and close the resolver using <kbd>cmd-.</kbd>.
+You can open and close the resolver using <kbd>Cmd+.</kbd> (macOS) or <kbd>Ctrl+.</kbd> (Linux and Windows).
 
-![](https://f.cloud.github.com/assets/671378/2241702/5dd5a102-9cde-11e3-9e3f-1d999930492f.png)
+Please note the clipboard icon which can be selected to copy the given keybinding
+directive so that you can easily paste it into your keymap files.
+
+![](https://user-images.githubusercontent.com/4137660/44482876-8de73a80-a617-11e8-8bd5-24023c96b39e.png)
