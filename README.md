@@ -3,7 +3,7 @@
 
 Shows what commands a keybinding resolves to.
 
-You can open and close the resolver using <kbd>Cmd+.</kbd> or <kbd>Ctrl+.</kbd>.
+You can open and close the resolver using <kbd>Cmd+.</kbd> (macOS) or <kbd>Ctrl+.</kbd> (Linux and Windows).
 
 Please note the clipboard icon which can be selected to copy the given keybinding
 directive so that you can easily paste it into your keymap files.
