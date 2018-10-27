@@ -44,6 +44,46 @@ describe('KeyBindingResolverView', () => {
     })
   })
 
+  describe('capturing keybinding events', () => {
+    it('captures events when the keybinding resolver is visible', async () => {
+      await atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
+      const keybindingResolverView = atom.workspace.getBottomDock().getActivePaneItem()
+      expect(keybindingResolverView.keybindingDisposables).not.toBe(null)
+
+      document.dispatchEvent(atom.keymaps.constructor.buildKeydownEvent('x', {target: bottomDockElement}))
+      await etch.getScheduler().getNextUpdatePromise()
+      expect(bottomDockElement.querySelector('.key-binding-resolver .keystroke').textContent).toBe('x')
+    })
+
+    it('does not capture events when the keybinding resolver is not the active pane item', async () => {
+      await atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
+      const keybindingResolverView = atom.workspace.getBottomDock().getActivePaneItem()
+      expect(keybindingResolverView.keybindingDisposables).not.toBe(null)
+
+      atom.workspace.getBottomDock().getActivePane().splitRight()
+      expect(keybindingResolverView.keybindingDisposables).toBe(null)
+
+      atom.workspace.getBottomDock().getActivePane().destroy()
+      document.dispatchEvent(atom.keymaps.constructor.buildKeydownEvent('x', {target: bottomDockElement}))
+      await etch.getScheduler().getNextUpdatePromise()
+      expect(bottomDockElement.querySelector('.key-binding-resolver .keystroke').textContent).toBe('x')
+    })
+
+    it('does not capture events when the dock the keybinding resolver is in is not visible', async () => {
+      await atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
+      const keybindingResolverView = atom.workspace.getBottomDock().getActivePaneItem()
+      expect(keybindingResolverView.keybindingDisposables).not.toBe(null)
+
+      atom.workspace.getBottomDock().hide()
+      expect(keybindingResolverView.keybindingDisposables).toBe(null)
+
+      atom.workspace.getBottomDock().show()
+      document.dispatchEvent(atom.keymaps.constructor.buildKeydownEvent('x', {target: bottomDockElement}))
+      await etch.getScheduler().getNextUpdatePromise()
+      expect(bottomDockElement.querySelector('.key-binding-resolver .keystroke').textContent).toBe('x')
+    })
+  })
+
   describe('when a keydown event occurs', () => {
     it('displays all commands for the keydown event but does not clear for the keyup when there is no keyup binding', async () => {
       atom.keymaps.add('name', {
