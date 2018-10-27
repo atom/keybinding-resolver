@@ -76,7 +76,7 @@ describe('KeyBindingResolverView', () => {
         }
       })
 
-      atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
+      await atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
 
       document.dispatchEvent(atom.keymaps.constructor.buildKeydownEvent('x', {target: bottomDockElement}))
       await etch.getScheduler().getNextUpdatePromise()
@@ -117,7 +117,7 @@ describe('KeyBindingResolverView', () => {
         }
       })
 
-      atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
+      await atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
 
       // Not partial because it dispatches the command for `x` immediately due to only having keyup events in remainder of partial match
       document.dispatchEvent(atom.keymaps.constructor.buildKeydownEvent('x', {target: bottomDockElement}))
