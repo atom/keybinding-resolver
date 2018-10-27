@@ -11,50 +11,36 @@ describe('KeyBindingResolverView', () => {
   })
 
   describe('when the key-binding-resolver:toggle event is triggered', () => {
-    it('creates and then destroys the view', () => {
-      const visibilitySpy = jasmine.createSpy('onDidChangeVisible')
-      atom.workspace.getBottomDock().onDidChangeVisible(visibilitySpy)
-
+    it('toggles the view', async () => {
+      expect(atom.workspace.getBottomDock().isVisible()).toBe(false)
       expect(bottomDockElement.querySelector('.key-binding-resolver')).not.toExist()
 
-      atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
-      waitsFor(() => visibilitySpy.callCount === 1)
-      runs(() => {
-        expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
+      await atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
+      expect(atom.workspace.getBottomDock().isVisible()).toBe(true)
+      expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
 
-        atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
-      })
+      await atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
+      expect(atom.workspace.getBottomDock().isVisible()).toBe(false)
+      expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
 
-      waitsFor(() => visibilitySpy.callCount === 2)
-      runs(() => {
-        expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
-
-        atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
-      })
-
-      waitsFor(() => visibilitySpy.callCount === 3)
+      await atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
+      expect(atom.workspace.getBottomDock().isVisible()).toBe(true)
+      expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
     })
 
-    it('focuses the view if it is not visible instead of destroying it', () => {
-      const visibilitySpy = jasmine.createSpy('onDidChangeVisible')
-      atom.workspace.getBottomDock().onDidChangeVisible(visibilitySpy)
-
+    it('focuses the view if it is not visible instead of destroying it', async () => {
+      expect(atom.workspace.getBottomDock().isVisible()).toBe(false)
       expect(bottomDockElement.querySelector('.key-binding-resolver')).not.toExist()
 
-      atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
-      waitsFor(() => visibilitySpy.callCount === 1)
-      runs(() => {
-        expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
+      await atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
+      expect(atom.workspace.getBottomDock().isVisible()).toBe(true)
+      expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
 
-        atom.workspace.getBottomDock().hide()
-        atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
-      })
+      atom.workspace.getBottomDock().hide()
+      await atom.commands.dispatch(workspaceElement, 'key-binding-resolver:toggle')
 
-      waitsFor(() => visibilitySpy.callCount === 3) // the second count happened when the dock was toggled
-      runs(() => {
-        expect(atom.workspace.getBottomDock().isVisible()).toBe(true)
-        expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
-      })
+      expect(atom.workspace.getBottomDock().isVisible()).toBe(true)
+      expect(bottomDockElement.querySelector('.key-binding-resolver')).toExist()
     })
   })
 
