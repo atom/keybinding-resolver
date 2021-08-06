@@ -8,6 +8,7 @@ describe('KeyBindingResolverView', () => {
     workspaceElement = atom.views.getView(atom.workspace)
     bottomDockElement = atom.views.getView(atom.workspace.getBottomDock())
     await atom.packages.activatePackage('keybinding-resolver')
+    jasmine.attachToDOM(workspaceElement);
   })
 
   describe('when the key-binding-resolver:toggle event is triggered', () => {
