@@ -1,4 +1,5 @@
-# Keybinding Resolver package
+##### Atom and all repositories under Atom will be archived on December 15, 2022. Learn more in our [official announcement](https://github.blog/2022-06-08-sunsetting-atom/)
+ # Keybinding Resolver package
 [![OS X Build Status](https://travis-ci.org/atom/keybinding-resolver.svg?branch=master)](https://travis-ci.org/atom/keybinding-resolver) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/9jf31itx01hnn4nh/branch/master?svg=true)](https://ci.appveyor.com/project/Atom/keybinding-resolver/branch/master) [![Dependency Status](https://david-dm.org/atom/keybinding-resolver.svg)](https://david-dm.org/atom/keybinding-resolver)
 
 Shows what commands a keybinding resolves to.
